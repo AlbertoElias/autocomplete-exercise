@@ -1,0 +1,69 @@
+:root {
+  --autocomplete-background-color: #fff;
+  --autocomplete-border: 1px solid #ccc;
+  --autocomplete-border-radius: 4px;
+  --autocomplete-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --autocomplete-color: #333;
+  --autocomplete-padding: 8px;
+  --autocomplete-list-height: 200px;
+  --autocomplete-list-z-index: 1;
+  --scrollbar-width: 28px;
+  --scrollbar-track-color: #f1f1f1;
+  --scrollbar-thumb-color: #888;
+}
+
+.autocomplete {
+  position: relative;
+}
+
+.autocomplete__input {
+  width: 100%;
+  padding: var(--autocomplete-padding);
+  border: var(--autocomplete-border);
+  border-radius: var(--autocomplete-border-radius);
+  box-shadow: var(--autocomplete-box-shadow);
+  color: var(--autocomplete-color);
+}
+
+.autocomplete:has(.autocomplete__list-item) .autocomplete__input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.autocomplete__list {
+  position: absolute;
+  max-height: var(--autocomplete-list-height);
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border-radius: 0 0 var(--autocomplete-border-radius) var(--autocomplete-border-radius);
+  box-shadow: var(--autocomplete-box-shadow);
+  z-index: var(--autocomplete-list-z-index);
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
+}
+
+.autocomplete__list::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+}
+
+.autocomplete__list::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-color);
+}
+
+.autocomplete__list::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-color);
+  border-radius: var(--autocomplete-border-radius);
+  border: 2px solid var(--scrollbar-track-color);
+}
+
+.autocomplete__list-item {
+  padding: var(--autocomplete-padding);
+  background-color: var(--autocomplete-background-color);
+  border: var(--autocomplete-border);
+  border-top: none;
+  color: var(--autocomplete-color);
+  cursor: pointer;
+  list-style-type: none;
+}
