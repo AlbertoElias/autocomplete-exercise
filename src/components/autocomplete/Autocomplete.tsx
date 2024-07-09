@@ -1,13 +1,17 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import "./Autocomplete.css";
 import { AutocompleteClassnames, AutocompleteProps } from "./AutocompleteTypes";
 import useDebounce from "./hooks/useDebounce";
+import AutocompleteSuggestions from "./components/AutocompleteSuggestions/AutocompleteSuggestions";
+import AutocompleteInput from "./components/AutocompleteInput/AutocompleteInput";
+import { useClickOutside } from "./hooks/useClickOutside";
 
 const defaultClassnames: AutocompleteClassnames = {
   wrapper: 'autocomplete',
   input: 'autocomplete__input',
   list: 'autocomplete__list',
   listItem: 'autocomplete__list-item',
+  activeListItem: 'autocomplete__list-item--active',
 };
 
 export default function Autocomplete({
@@ -16,12 +20,17 @@ export default function Autocomplete({
   classNames,
   debounceDelay = 150,
 }: AutocompleteProps) {
-  classNames = { ...defaultClassnames, ...classNames };
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const mergedClassNames = { ...defaultClassnames, ...classNames };
   const [inputValue, setInputValue] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
 
+  useClickOutside(wrapperRef, () => setFilteredSuggestions([]));
+
   const filterSuggestions = useCallback((value: string) => {
-    const filtered = suggestions.filter((suggestion) => suggestion.toLowerCase().includes(value.toLowerCase()));
+    const filtered = suggestions.filter((suggestion) =>
+      suggestion.toLowerCase().includes(value.toLowerCase())
+    );
     setFilteredSuggestions(filtered);
   }, [suggestions]);
 
@@ -39,20 +48,17 @@ export default function Autocomplete({
   }
 
   return (
-    <div className={classNames.wrapper}>
-      <input
-        className={classNames.input}
-        type="text"
-        onChange={(e) => handleInputChange(e.target.value)}
+    <div className={mergedClassNames.wrapper} ref={wrapperRef}>
+      <AutocompleteInput
         value={inputValue}
+        onChange={handleInputChange}
+        classNames={mergedClassNames}
       />
-      <ul className={classNames.list}>
-        {filteredSuggestions.map((suggestion) => {
-          return (
-            <li key={suggestion} className={classNames.listItem} onClick={() => handleInputClick(suggestion)}>{suggestion}</li>
-          )
-        })}
-      </ul>
+      <AutocompleteSuggestions
+        suggestions={filteredSuggestions}
+        onSelect={handleInputClick}
+        classNames={mergedClassNames}
+      />
     </div>
   )
 }

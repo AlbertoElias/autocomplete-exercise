@@ -1,5 +1,6 @@
 :root {
   --autocomplete-background-color: #fff;
+  --autocomplete-background-color-active: #f0f0f0;
   --autocomplete-border: 1px solid #ccc;
   --autocomplete-border-radius: 4px;
   --autocomplete-box-shadow: 4px 4px 8px rgba(88, 88, 88, 0.8);
@@ -57,4 +58,9 @@
   color: var(--autocomplete-color);
   cursor: pointer;
   list-style-type: none;
+}
+
+.autocomplete__list-item:hover,
+.autocomplete__list-item--active {
+  background-color: var(--autocomplete-background-color-active);
 }

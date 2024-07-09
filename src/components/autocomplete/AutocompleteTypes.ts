@@ -10,4 +10,5 @@ export interface AutocompleteClassnames {
   input?: string;
   list?: string;
   listItem?: string;
+  activeListItem?: string;
 };
